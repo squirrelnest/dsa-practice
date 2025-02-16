@@ -1,0 +1,7 @@
+function bouncer(arr) {
+  // filter() creates a shallow copy, does not mutate arr permanently
+  arr.filter(Boolean)
+  return arr.filter(Boolean);
+}
+
+bouncer([7, 'ate', '', false, 9]);
