@@ -1,0 +1,11 @@
+function titleCase(str) {
+    let tokens = str.split(" ");
+    let output = tokens.map((t) => {
+      return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+    }).join(" ");
+    console.log(output);
+    return output;
+  ;
+}
+
+titleCase("I'm a little tea pot");
