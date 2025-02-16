@@ -1,0 +1,33 @@
+function chunkArrayInGroups(arr, size) {
+  let output = [];
+  for (let i = 0; i < arr.length; i+=size) {
+    output.push(arr.slice(i, i + size))
+  }
+  return output;
+}
+
+// while/splice version
+
+function chunkArrayInGroups(arr, size) {
+  const newArr = [];
+  while (arr.length > 0) {
+    // For each iteration of while loop, delete size number of elements from the front of arr. Recall that second argument of splice() is deleteCount.
+    newArr.push(arr.splice(0, size));
+  }
+  return newArr;
+}
+
+// recursive version
+
+function chunkArrayInGroups(arr, size) {
+  if (arr.length <= size) {
+    return [arr];
+  } else {
+    return [arr.slice(0, size)].concat(
+      chunkArrayInGroups(arr.slice(size), size)
+    );
+  }
+}
+
+chunkArrayInGroups(['a', 'b', 'c', 'd'], 2);
+
