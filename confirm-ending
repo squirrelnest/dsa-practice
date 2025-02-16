@@ -1,0 +1,11 @@
+function confirmEnding(str, target) {
+  // 2 ways to declare regex:
+  // re = /pattern/flags;
+  // re = new RegExp("pattern", "flags");
+
+  let re = new RegExp(target + "$", "i");
+  return re.test(str);
+}
+
+
+confirmEnding('Bastian', 'n');
