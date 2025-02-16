@@ -1,0 +1,14 @@
+function getIndexToIns(arr, num) {
+  let output = arr
+    .sort((a, b) => a-b)
+    .findIndex((e) => { return num <= e });
+  console.log(output);
+  // return output;
+  return output === -1 ? arr.length : output;
+}
+
+function getIndexToIns(arr, num) {
+  return arr.filter(val => num > val).length;
+}
+
+getIndexToIns([40, 60], 50);
