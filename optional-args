@@ -1,18 +1,25 @@
 function addTogether() {
   const [first, second] = arguments;
 
-  if (arguments.length === 1) {
-    console.log("returning a function")
-    return (second) => {return first + second}
-  }
-
-  if (typeof first != "number" || typeof second != "number") {
-    console.log("is undefined")
+  if (typeof first != "number") {
     return undefined;
-  } else {
-    console.log(Number(first) + Number(second))
-    return Number(first) + Number(second)
-  }
+  } 
+
+  if (arguments.length === 1) {
+    return (second) => {
+      if (typeof second != "number") {
+        return undefined;
+      }
+      return first + second
+    }
+  } 
+
+  if (typeof second != "number") {
+    return undefined;
+  } 
+
+  return Number(first) + Number(second)
+
 }
 
 function addTogether() {
