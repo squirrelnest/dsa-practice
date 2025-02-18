@@ -1,0 +1,9 @@
+function myReplace(str, before, after) {
+  const regex = new RegExp(`${before}`);
+  let match = str.match(regex);
+  let casedAfter = /^[A-Z]/.test(match) ? after.replace(after[0], after[0].toUpperCase()) : after.replace(after[0], after[0].toLowerCase());
+  console.log(casedAfter)
+  return str.replace(before, casedAfter);
+}
+
+myReplace("A quick brown fox jumped over the lazy dog", "jumped", "leaped");
