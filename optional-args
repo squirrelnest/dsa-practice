@@ -3,7 +3,7 @@ function addTogether() {
 
   if (arguments.length === 1) {
     console.log("returning a function")
-    return () => {return num += first}
+    return (second) => {return first + second}
   }
 
   if (typeof first != "number" || typeof second != "number") {
@@ -15,4 +15,6 @@ function addTogether() {
   }
 }
 
-addTogether(2,3);
+addTogether(2,3); // should return 5
+addTogether("2",3); // should return undefined
+addTogether(5)(7); // should return 12
