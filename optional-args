@@ -15,6 +15,18 @@ function addTogether() {
   }
 }
 
+function addTogether() {
+  const [first, second] = arguments;
+  function addSecond(second) {
+    if (typeof (second) === "number") return first + second;
+  }
+  if (typeof (first) === "number") {
+    if (arguments.length === 1) return addSecond;
+    if (arguments.length === 2) return addSecond(second);
+  }
+}
+
+
 addTogether(2,3); // should return 5
 addTogether("2",3); // should return undefined
 addTogether(5)(7); // should return 12
