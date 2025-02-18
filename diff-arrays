@@ -1,5 +1,4 @@
 function diffArray(arr1, arr2) {
-  const newArr = [];
   let merged = arr1.concat(arr2);
   return merged.filter((e) => {
     return !arr2.includes(e) || !arr1.includes(e)
