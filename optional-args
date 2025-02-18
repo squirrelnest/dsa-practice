@@ -1,0 +1,18 @@
+function addTogether() {
+  const [first, second] = arguments;
+
+  if (arguments.length === 1) {
+    console.log("returning a function")
+    return () => {return num += first}
+  }
+
+  if (typeof first != "number" || typeof second != "number") {
+    console.log("is undefined")
+    return undefined;
+  } else {
+    console.log(Number(first) + Number(second))
+    return Number(first) + Number(second)
+  }
+}
+
+addTogether(2,3);
