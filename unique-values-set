@@ -1,0 +1,9 @@
+function uniteUnique(arr, ...args) {
+  let all = arr.concat(...args);
+  console.log(all)
+  let output = new Set(all);
+  console.log(output)
+  return [...output];
+}
+
+uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]);
