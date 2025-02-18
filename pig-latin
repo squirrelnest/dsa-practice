@@ -1,0 +1,20 @@
+function translatePigLatin(str) {
+  let tokens = str.split("");
+  // begins with vowel
+  if (["a", "e", "i", "o", "u"].includes(tokens[0])) {
+    console.log(tokens.concat("way").join(""))
+    return tokens.concat("way").join("")
+  } else {
+    // begins with consonants
+    const consonantCluster = str.match(/^[^aeiou]+/)[0];
+    return str.substring(consonantCluster.length) + consonantCluster + "ay";
+  }
+}
+
+function translatePigLatin(str) {
+  return str
+    .replace(/^[aeiou]\w*/, "$&way")
+    .replace(/(^[^aeiou]+)(\w*)/, "$2$1ay");
+}
+
+translatePigLatin("consonant");
