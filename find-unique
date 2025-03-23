@@ -1,3 +1,8 @@
+// fastest solution uses bitwise operator ("^" means XOR) 
+function findUnique(numbers) {
+  return numbers.reduce((a, b) => a ^ b);
+}
+
 // this times out when using very large sets of numbers: O(n * n)
 function findUnique(numbers) {
     return numbers.find((n) => 
