@@ -1,4 +1,4 @@
-// fastest solution uses bitwise operator ("^" means XOR) 
+// fastest solution uses bitwise operator ("^" means XOR): O(n)
 function findUnique(numbers) {
   return numbers.reduce((a, b) => a ^ b);
 }
@@ -36,4 +36,15 @@ function findUnique(numbers) {
   // });
   
   return Number(lowest)
+}
+
+// sort first: O(n + n)
+function findUnique2(numbers) {
+    numbers.sort();
+    for (var i = 0; i < numbers.length; i += 2) {
+        if(numbers[i] !== numbers[i+1]) {
+            return numbers[i];
+        }
+    }
+    return undefined;
 }
