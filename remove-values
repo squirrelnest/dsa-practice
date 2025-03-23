@@ -3,3 +3,8 @@ function destroyer(arr, ...valuesToRemove) {
 }
 
 destroyer([1, 2, 3, 1, 2, 3], 2, 3);
+
+// ruby version to filter out even numbers from an array
+def filter_out_even_numbers(arr)
+  arr.select {|num| num.odd? }
+end
