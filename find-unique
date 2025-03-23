@@ -1,5 +1,34 @@
+// this times out when using very large sets of numbers: O(n * n)
 function findUnique(numbers) {
     return numbers.find((n) => 
       numbers.indexOf(n) === numbers.lastIndexOf(n)
     )
+}
+
+// another way that's less running time: O(n + m)  [m being the number of keys]
+
+function findUnique(numbers) {
+  let frequencies = numbers.reduce((a, v) => {
+    a[v] = (a[v] ?? 0) + 1;
+    return a;
+  }, {});
+  
+  console.log(frequencies);
+  
+  let lowest;
+  
+  for (const [key, value] of Object.entries(frequencies)) {
+    if (value == 1) {
+      lowest = key
+    }
+  };
+
+  // This also works
+  // Object.entries(frequencies).forEach(([key, value]) => {
+  //  if (value == 1) {
+  //    lowest = key
+  //  }
+  // });
+  
+  return Number(lowest)
 }
