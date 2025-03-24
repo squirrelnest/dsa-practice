@@ -1,0 +1,61 @@
+const inputs = [
+    ["matt", "a, b,c"],
+    ["joan", "a,b"],
+    ["hiro", "b,c "],
+]
+
+// succinct 
+function query1(data, labels) {
+    return data.filter((doctor) => {
+        const labelsCleaned = doctor[1].split(",").map((label) => label.trim());
+        return labels.every((label) => labelsCleaned.includes(label))
+    }).map((doc) => doc[0])
+}
+
+// unnecessarily implements a custom version of every()
+function query2(data, labels) {
+    let valid = []
+    let hasEveryLabel = (array) => { 
+        for (let i=0; i<labels.length; i++) {
+            if (!array.includes(labels[i])) {
+                return false
+            }
+        }
+        return true
+    }
+
+    // don't use map bc it will return undefined for each invalid doctor. The map function is used to map one value to another.
+    data.forEach((doctor) => {
+        const labelsCleaned = doctor[1].split(",").map((label) => label.trim());
+        if (hasEveryLabel(labelsCleaned)) {
+            valid.push(doctor[0])
+        }
+    })
+
+    return valid
+}
+
+// messy and doesn't work if there are fewer than 3 query labels
+// function query2(data, labels) {
+//     let valid = []
+
+//     data.forEach((doctor) => {
+//         const labelsCleaned = doctor[1].split(",").map((label) => label.trim());
+//         if (
+//             labelsCleaned.includes(labels[0]) && 
+//             labelsCleaned.includes(labels[1]) && 
+//             labelsCleaned.includes(labels[2])
+//         ) {
+//             valid.push(doctor[0])
+//         }
+        
+//     })
+
+//     return valid;
+// }
+
+console.log(query1(inputs, ["a", "b", "c"]))
+console.log(query1(inputs, ["a", "b"]))
+
+console.log(query2(inputs, ["a", "b", "c"]))
+console.log(query2(inputs, ["a", "b"]))
