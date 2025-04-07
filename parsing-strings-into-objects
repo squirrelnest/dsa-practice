@@ -1,0 +1,84 @@
+const APPLICANTS = [
+    {
+        name: "jane doe",
+        phone: "1234567890",
+        address: "78 Cement St",
+        city: "Columbus",
+        state: "OH",
+        needsVisa: false,
+        skills: ["react", "ruby", "python"],
+        role: 4,
+        interviewed: true,
+        dateApplied: "2016-01-03T15:04:05.000Z"
+    },
+    {
+        name: "mike smith",
+        phone: "2222222222",
+        address: "64 Concrete St",
+        city: "Wilmington",
+        state: "DE",
+        needsVisa: true,
+        skills: ["java", "python"],
+        role: 8,
+        interviewed: false,
+        dateApplied: "2020-05-02T15:04:05.000Z"
+    },
+]
+
+const APPLICANTS_STRING = "[\n   {\n      \"name\":\"jane doe\",\n      \"phone\":\"1234567890\",\n      \"address\":\"78 Cement St\",\n      \"city\":\"Columbus\",\n      \"state\":\"OH\",\n      \"needsVisa\":false,\n      \"skills\":[\n         \"react\",\n         \"ruby\",\n         \"python\"\n      ],\n      \"role\":4,\n      \"interviewed\":true,\n      \"dateApplied\":\"2016-01-03T15:04:05.000Z\"\n   },\n   {\n      \"name\":\"mike smith\",\n      \"phone\":\"2222222222\",\n      \"address\":\"64 Concrete St\",\n      \"city\":\"Wilmington\",\n      \"state\":\"DE\",\n      \"needsVisa\":true,\n      \"skills\":[\n         \"java\",\n         \"python\"\n      ],\n      \"role\":8,\n      \"interviewed\":false,\n      \"dateApplied\":\"2020-05-02T15:04:05.000Z\"\n   }\n]"
+
+function Candidates(data) {
+    if (typeof data == "object") { return JSON.parse(JSON.stringify(data))}
+    return JSON.parse(data)
+}
+
+// constructor function - the pre-2015, pre-ES6 of creating objects
+// function Candidate(data) {
+//     this.company = "MyCompany";
+//     Object.assign(this, data);
+// }
+
+function createCandidates(data, category={}) {
+    let candidates = typeof data == "object" ? JSON.parse(JSON.stringify(data)) : JSON.parse(data)
+    
+    return candidates.map((candidate) => {
+        let candidatePlusCategory = Object.assign(category, candidate)
+        return new Candidate(candidatePlusCategory) // instantiates new objects of the Candidate class
+    })
+}
+
+// class construction - the ES6 way of creating new objects
+class Candidate {
+    constructor(data) {
+        this.company = "MyCompany";
+        Object.assign(this, data);
+    }
+}
+
+function satisfiesAllRequirements(person, query) {
+    let key = query[0]
+    let value = query[1]
+    if (Array.isArray(value)) {
+        return value.every((item) => person[key].includes(item))
+    } else {
+        return value === person[key];
+    }
+}
+
+function filterApplicants(persons, query) {
+    return persons.filter((person) => Object.entries(query).every((q) => satisfiesAllRequirements(person, q)))
+    .map((person) => person.name)
+}
+
+let attrsDesired = {   
+    interviewed: false,
+    skills: ["java", "python"],
+}
+
+let departmentObj = { department: "engineering" }
+
+let candidates = new Candidates(APPLICANTS_STRING); //create object from Candidate
+
+console.log("createCandidates... \n", createCandidates(APPLICANTS_STRING, departmentObj), "\n\n")
+
+console.log("filterApplicants... \n", filterApplicants(candidates, attrsDesired))
