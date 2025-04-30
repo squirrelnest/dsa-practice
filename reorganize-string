@@ -2,6 +2,7 @@
  * Reorganizes string so that no adjacent characters are the same
  * @param {string} s
  * @return {string}
+ * 6ms runtime
  */
 
 var reorganizeString = function (s) {
@@ -46,4 +47,49 @@ var reorganizeString = function (s) {
 
     return output.join("")
     
+};
+
+/**
+ * @param {string} s
+ * @return {string}
+ * 2ms runtime because it constructs output array only once
+ */
+var reorganizeString = function(s) {
+    let charMap = new Map();
+
+    for(let currChar of s){
+        
+        let currCount = charMap.get(currChar);
+        if(currCount == undefined){
+            currCount = 0;
+        }
+        currCount++;
+        charMap.set(currChar, currCount);
+    }
+
+    if(charMap.size == 0){
+        return "";
+    }
+
+    // Now we have all the characters in a map and the count of each
+    // lets sort them greatest to least
+    // let newString = "";
+    let result = Array(s.length).fill(null);
+    let sortedMap = new Map(Array.from(charMap).sort((a, b) => b[1] - a[1]));
+
+    if(sortedMap.values().next().value > Math.floor(s.length+1)/2) { 
+        return "";
+    }
+
+    let i=0;
+    for(let [k,v] of sortedMap){
+        for(let j=0; j<v; j++){
+            if(i>=(s.length)){
+                i=1;
+            }
+            result[i] = k;
+            i += 2;
+        }
+    }
+    return result.join('');
 };
