@@ -33,11 +33,11 @@ var reorganizeString = function (s) {
     }
 
     // reset index counter
-    i = 1
     
     // place rest of letters in even positions
     sorted.slice(1).forEach((letter) => {
         while (freqs[letter] > 0) {
+            if (i >= s.length) i = 1; // go back to beginning of even positions if reach end of string
             output[i] = letter
             i += 2 
             freqs[letter]--
