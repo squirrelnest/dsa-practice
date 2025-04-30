@@ -1,0 +1,49 @@
+/**
+ * Reorganizes string so that no adjacent characters are the same
+ * @param {string} s
+ * @return {string}
+ */
+
+var reorganizeString = function (s) {
+    let arr = s.split("")
+    let freqs = {}
+    let output = []
+
+    arr.forEach((letter) => {
+        if (letter in freqs) {
+            freqs[letter]++
+        } else {
+            freqs[letter] = 1
+        }
+    })
+
+    let sorted = Object.keys(freqs).sort((a, b) => freqs[b] - freqs[a])
+    let maxKey = sorted[0][0]
+    // let maxKey = Object.entries(freqs).reduce((a, b) => a[1] > b[1] ? a[0] : b[0])
+    console.log(sorted.slice(1))
+    if (freqs[maxKey] > Math.ceil(arr.length / 2)) return "";
+
+    let i = 0
+
+    // place most frequent letter at odd positions
+    while (freqs[maxKey] > 0) {
+        output[i] = maxKey
+        i += 2
+        freqs[maxKey]--
+    }
+
+    // reset index counter
+    i = 1
+    
+    // place rest of letters in even positions
+    sorted.slice(1).forEach((letter) => {
+        while (freqs[letter] > 0) {
+            output[i] = letter
+            i += 2 
+            freqs[letter]--
+        }
+    })
+
+    return output.join("")
+    
+};
