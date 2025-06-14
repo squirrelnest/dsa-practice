@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<section> <!-- waveform will be rendered here --> </section>
+<audio controls src="https://ice3.somafm.com/defcon-128-mp3" crossorigin="anonymous">
+
+<script type="module">
+
+    const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+
+    // Get the source
+    const audio = document.querySelector('audio');
+    audio.onplay = () => audioCtx.resume();
+    const source = audioCtx.createMediaElementSource(audio);
+
+    // Create an analyser
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2 ** 8;
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    // Connect parts
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+
+    // Visualisation
+    const section = document.querySelector('section');
+    const v = (new Array(bufferLength))
+        .fill()
+        .map(e => (e = document.createElement('i')) && section.appendChild(e) && e);
+
+    setInterval(() => {
+    analyser.getByteTimeDomainData(dataArray);
+    dataArray.forEach((d, i) => 
+        v[i].style.setProperty('--c', Math.abs(128 - d) * 2.8125 | 0))
+    }, 50);
+
+</script>
+
+<style>
+    html,
+    body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background: #000;
+    }
+
+    section {
+        display: flex;
+        align-items: center;
+        height: 100vh;
+    }
+
+    section i {
+        flex: 1 1 100%;
+        height: calc(100vh * var(--c)/360);
+        border-radius: 55%;
+        background: hsl(var(--c), 95%, 45%);
+    }
+
+    audio {
+        position: fixed;
+        width: calc(100% - 2em);
+        bottom: 1em;
+        left: 1em;
+        opacity: .3;
+    }
+</style>
