@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<canvas id="waveform" width="500" height="150">
+  <!-- the waveform will be rendered here -->
+</canvas>
+
+<script type="module">
+
+    // audio
+
+    const audioContext = new AudioContext();
+    const gainNode = audioContext.createGain(); 
+
+    async function loadAndPlayAudio(url) {
+        const response = await fetch(url);
+        const audioData = await response.arrayBuffer();
+        const audioBuffer = await audioContext.decodeAudioData(audioData);
+
+        // create Source node
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        // source.start();
+
+        return source
+    }
+    
+    const analyser = audioContext.createAnalyser();
+    const source = await loadAndPlayAudio("https://cdn.pixabay.com/audio/2023/01/09/audio_baaa3cfec7.mp3");
+
+    // source.connect(gainNode);
+    // gainNode.gain.value = 200; 
+    source.connect(analyser);
+    // source.connect(audioContext.destination);
+    // source.start()
+    
+    // canvas 
+
+    const canvas = document.getElementById('waveform');
+    const canvasContext = canvas.getContext('2d');
+
+    function drawWaveform() {
+        analyser.fftSize = 2048;
+        const dataArray = new Uint8Array(analyser.fftSize);
+        analyser.getByteTimeDomainData(dataArray);
+        // analyser.getByteFrequencyData(dataArray);
+
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+        canvasContext.beginPath();
+
+        for (let i = 0; i < dataArray.length; i++) {
+            const x = i / dataArray.length * canvas.width;
+            const y = dataArray[i] / 255 * canvas.height;
+            canvasContext.lineTo(x, y);
+        }
+
+        canvasContext.fillStyle = "yellow"; // purple
+        canvasContext.fillRect(0, 0, 500, 150);
+        canvasContext.strokeStyle = "red";
+        canvasContext.stroke();
+        requestAnimationFrame(drawWaveform);
+    }
+
+    drawWaveform();
+
+</script>
